@@ -73,5 +73,6 @@ namespace Cinema
     {
       Movie.DeleteAll();
     }
+
   }
 }
