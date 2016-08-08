@@ -71,5 +71,19 @@ namespace Cinema
       Assert.Equal(testId, result);
     }
 
+    [Fact]
+    public void Test5_Find_FindsTicketInDatabase()
+    {
+      //Arrange
+      Ticket testTicket = new Ticket(1,2);
+      testTicket.Save();
+
+      //Act
+      Ticket foundTicket = Ticket.Find(testTicket.GetId());
+
+      //Assert
+      Assert.Equal(testTicket, foundTicket);
+    }
+
   }
 }

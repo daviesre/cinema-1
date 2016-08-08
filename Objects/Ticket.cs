@@ -120,6 +120,44 @@ namespace Cinema
       }
     }
 
+    public static Ticket Find(int id)
+    {
+      SqlConnection conn = DB.Connection();
+      conn.Open();
+
+      SqlCommand cmd = new SqlCommand("SELECT * FROM tickets WHERE id = @TicketId;", conn);
+      SqlParameter ticketIdParameter = new SqlParameter();
+      ticketIdParameter.ParameterName = "@TicketId";
+      ticketIdParameter.Value = id.ToString();
+
+      cmd.Parameters.Add(ticketIdParameter);
+
+      SqlDataReader rdr = cmd.ExecuteReader();
+
+      int foundTicketId = 0;
+      int foundTicketMovieId = 0;
+      int foundTicketQuantity = 0;
+
+      while (rdr.Read())
+      {
+        foundTicketId = rdr.GetInt32(0);
+        foundTicketMovieId  = rdr.GetInt32(1);
+        foundTicketQuantity = rdr.GetInt32(2);
+
+      }
+      Ticket foundTicket = new Ticket(foundTicketMovieId, foundTicketQuantity, foundTicketId);
+
+      if (rdr != null)
+      {
+        rdr.Close();
+      }
+      if (conn != null)
+      {
+        conn.Close();
+      }
+      return foundTicket;
+    }
+
     public static void DeleteAll()
     {
       SqlConnection conn = DB.Connection();
