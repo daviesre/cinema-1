@@ -128,6 +128,26 @@ namespace Cinema
       }
     }
 
+    public void Delete()
+    {
+      SqlConnection conn = DB.Connection();
+      conn.Open();
+
+      SqlCommand cmd = new SqlCommand("DELETE FROM movies WHERE id = @MovieId;", conn);
+
+      SqlParameter movieIdParameter = new SqlParameter();
+      movieIdParameter.ParameterName = "@MovieId";
+      movieIdParameter.Value = this.GetId();
+
+      cmd.Parameters.Add(movieIdParameter);
+      cmd.ExecuteNonQuery();
+
+      if (conn != null)
+      {
+        conn.Close();
+      }
+    }
+
     public static Movie Find(int newId)
     {
       SqlConnection conn = DB.Connection();
