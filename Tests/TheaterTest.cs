@@ -6,17 +6,25 @@ using System.Data.SqlClient;
 
 namespace Cinema
 {
-  public class TheatreTest : IDisposable
+  public class TheaterTest : IDisposable
   {
-    public LibraryTest()
+    public TheaterTest()
     {
       DBConfiguration.ConnectionString = "Data Source=(localdb)\\mssqllocaldb;Initial Catalog=cinema_test;Integrated Security=SSPI;";
     }
+
     public void Dispose()
     {
-      Cinema.DeleteAll();
+      Theater.DeleteAll();
     }
 
+    [Fact]
+    public void T1_DBEmptyAtFirst()
+    {
+      int result = Theater.GetAll().Count;
+
+      Assert.Equal(0, result);
+    }
 
 
   }
