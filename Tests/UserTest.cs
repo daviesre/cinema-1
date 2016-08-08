@@ -85,8 +85,5 @@ namespace Cinema
       Assert.Equal(testUser, foundUser);
     }
 
-
-
-
   }
 }
