@@ -87,7 +87,7 @@ namespace Cinema
     }
 
     [Fact]
-    public void Test7_AddTicket_AddsTicketToUser()
+    public void Test6_AddTicket_AddsTicketToUser()
     {
       //Arrange
       User testUser = new User("Sara");
@@ -109,6 +109,29 @@ namespace Cinema
       //Assert
       Assert.Equal(testList, result);
     }
+
+    [Fact]
+    public void Test8_GetTickets_ReturnsAllUserTickets()
+    {
+      //Arrange
+      User testUser = new User("Sara");
+      testUser.Save();
+
+      Ticket testTicket1 = new Ticket(2,4);
+      testTicket1.Save();
+
+      Ticket testTicket2 = new Ticket(1,3);
+      testTicket2.Save();
+
+      //Act
+      testUser.AddTicket(testTicket1);
+      List<Ticket> savedTickets = testUser.GetTickets();
+      List<Ticket> testList = new List<Ticket> {testTicket1};
+
+      //Assert
+      Assert.Equal(testList, savedTickets);
+    }
+
 
   }
 }
