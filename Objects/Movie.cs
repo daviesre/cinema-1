@@ -20,6 +20,23 @@ namespace Cinema
       _id = Id;
     }
 
+    //Equals method
+    public override bool Equals(System.Object otherMovie)
+    {
+      if (!(otherMovie is Movie))
+      {
+        return false;
+      }
+      else
+      {
+        Movie newMovie = (Movie) otherMovie;
+        bool idEquality = this.GetId() == newMovie.GetId();
+        bool titleEquality = this.GetTitle() == newMovie.GetTitle();
+        bool ratingEquality = this.GetRating() == newMovie.GetRating();
+        return (idEquality && titleEquality && ratingEquality);
+      }
+    }
+
     //getters and setters
     public string GetTitle()
     {
@@ -40,7 +57,20 @@ namespace Cinema
       _rating = newRating;
     }
 
-    //other methods
+    public int GetId()
+    {
+      return _id;
+    }
 
+    //other methods
+    public static void DeleteAll()
+    {
+      SqlConnection conn = DB.Connection();
+      conn.Open();
+
+      SqlCommand cmd = new SqlCommand("DELETE from movies;", conn);
+      cmd.ExecuteNonQuery();
+      conn.Close();
+    }
   }
 }
