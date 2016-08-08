@@ -39,5 +39,21 @@ namespace Cinema
       Assert.Equal(firstUser, secondUser);
     }
 
+    [Fact]
+    public void Test3_Save_SavesToDatabase()
+    {
+      //Arrange
+      User testUser = new User("Sara");
+
+      //Act
+      testUser.Save();
+      List<User> result = User.GetAll();
+      List<User> testList = new List<User>{testUser};
+
+      //Assert
+      Assert.Equal(testList, result);
+    }
+
+
   }
 }

@@ -59,19 +59,50 @@ namespace Cinema
     }
 
     public override bool Equals(System.Object otherUser)
-   {
-       if (!(otherUser is User))
-       {
-         return false;
-       }
-       else
-       {
-         User newUser = (User) otherUser;
-         bool idEquality = this.GetId() == newUser.GetId();
-         bool nameEquality = this.GetName() == newUser.GetName();
-         return (idEquality && nameEquality);
-       }
-   }
+    {
+        if (!(otherUser is User))
+        {
+          return false;
+        }
+        else
+        {
+          User newUser = (User) otherUser;
+          bool idEquality = this.GetId() == newUser.GetId();
+          bool nameEquality = this.GetName() == newUser.GetName();
+          return (idEquality && nameEquality);
+        }
+    }
+
+    public void Save()
+    {
+      SqlConnection conn = DB.Connection();
+      conn.Open();
+
+      SqlCommand cmd = new SqlCommand("INSERT INTO users (name) OUTPUT INSERTED.id VALUES (@UserName);", conn);
+
+      SqlParameter nameParameter = new SqlParameter();
+      nameParameter.ParameterName = "@UserName";
+      nameParameter.Value = this.GetName();
+      cmd.Parameters.Add(nameParameter);
+      SqlDataReader rdr = cmd.ExecuteReader();
+
+      while(rdr.Read())
+      {
+        this._id = rdr.GetInt32(0);
+      }
+      if (rdr != null)
+      {
+        rdr.Close();
+      }
+      if(conn != null)
+      {
+        conn.Close();
+      }
+    }
+
+
+
+
 
     public static void DeleteAll()
     {
