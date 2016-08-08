@@ -63,6 +63,36 @@ namespace Cinema
     }
 
     //other methods
+    public static List<Movie> GetAll()
+    {
+      List<Movie> allMovies = new List<Movie>{};
+
+      SqlConnection conn = DB.Connection();
+      conn.Open();
+
+      SqlCommand cmd = new SqlCommand("SELECT * FROM movies;", conn);
+      SqlDataReader rdr = cmd.ExecuteReader();
+
+      while(rdr.Read())
+      {
+        int movieId = rdr.GetInt32(0);
+        string movieTitle = rdr.GetString(1);
+        string movieRating = rdr.GetString(2);
+        Movie newMovie = new Movie(movieTitle, movieRating, movieId);
+        allMovies.Add(newMovie);
+      }
+
+      if(rdr != null)
+      {
+        rdr.Close();
+      }
+      if(conn != null)
+      {
+        conn.Close();
+      }
+      return allMovies;
+    }
+
     public static void DeleteAll()
     {
       SqlConnection conn = DB.Connection();
