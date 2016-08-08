@@ -36,5 +36,17 @@ namespace Cinema
       Assert.Equal(firstTheater, secondTheater);
     }
 
+    [Fact]
+    public void T3_Save_SavesToDB()
+    {
+        DateTime fakeTime=new DateTime(2016,08,02);
+      Theater testTheater = new Theater("Regal", fakeTime);
+      testTheater.Save();
+
+      List<Theater> result = Theater.GetAll();
+      List<Theater> testList = new List<Theater>{testTheater};
+
+      Assert.Equal(testList, result);
+    }
   }
 }
