@@ -71,6 +71,20 @@ namespace Cinema
       Assert.Equal(testId, result);
     }
 
+    [Fact]
+    public void Test5_Find_FindsUserInDatabase()
+    {
+      //Arrange
+      User testUser = new User("Sara");
+      testUser.Save();
+
+      //Act
+      User foundUser = User.Find(testUser.GetId());
+
+      //Assert
+      Assert.Equal(testUser, foundUser);
+    }
+
 
 
 
