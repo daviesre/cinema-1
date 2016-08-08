@@ -13,6 +13,11 @@ namespace Cinema
       DBConfiguration.ConnectionString = "Data Source=(localdb)\\mssqllocaldb;Initial Catalog=cinema_test;Integrated Security=SSPI;";
     }
 
+    public void Dispose()
+    {
+      Ticket.DeleteAll();
+    }
+
     [Fact]
     public void Test1_DatabaseEmptyAtFirst()
     {
@@ -23,9 +28,15 @@ namespace Cinema
       Assert.Equal(0, result);
     }
 
-    public void Dispose()
+    [Fact]
+    public void Test2_Equal_ReturnsTrueIfNamesAreTheSame()
     {
-      User.DeleteAll();
+      //Arrange, Act
+      Ticket firstTicket = new Ticket(1,1);
+      Ticket secondTicket = new Ticket(1,1);
+
+      //Assert
+      Assert.Equal(firstTicket, secondTicket);
     }
 
   }
