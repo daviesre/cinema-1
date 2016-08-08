@@ -54,5 +54,22 @@ namespace Cinema
       Assert.Equal(testList, result);
     }
 
+    [Fact]
+    public void Test4_Save_AssignsIdToTicketObject()
+    {
+      //Arrange
+      Ticket testTicket = new Ticket(1,1);
+      testTicket.Save();
+
+      //Act
+      Ticket savedTicket = Ticket.GetAll()[0];
+
+      int result = savedTicket.GetId();
+      int testId = testTicket.GetId();
+
+      //Assert
+      Assert.Equal(testId, result);
+    }
+
   }
 }
