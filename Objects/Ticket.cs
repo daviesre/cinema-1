@@ -158,6 +158,27 @@ namespace Cinema
       return foundTicket;
     }
 
+
+
+    // public void Delete()
+    // {
+    //   SqlConnection conn = DB.Connection();
+    //   conn.Open();
+    //
+    //   SqlCommand cmd = new SqlCommand("DELETE FROM tickets WHERE id = @TicketId; DELETE FROM users_tickets WHERE ticket_id = @TicketId;", conn);
+    //   SqlParameter ticketIdParameter = new SqlParameter();
+    //   ticketIdParameter.ParameterName = "@TicketId";
+    //   ticketIdParameter.Value = this.GetId();
+    //
+    //   cmd.Parameters.Add(ticketIdParameter);
+    //   cmd.ExecuteNonQuery();
+    //
+    //   if (conn != null)
+    //   {
+    //     conn.Close();
+    //   }
+    // }
+
     public static void DeleteAll()
     {
       SqlConnection conn = DB.Connection();

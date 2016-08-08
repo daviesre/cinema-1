@@ -16,6 +16,7 @@ namespace Cinema
     public void Dispose()
     {
       Ticket.DeleteAll();
+      User.DeleteAll();
     }
 
     [Fact]
@@ -84,6 +85,25 @@ namespace Cinema
       //Assert
       Assert.Equal(testTicket, foundTicket);
     }
+
+    // [Fact]
+    // public void Test6_Delete_DeletesTicketFromDatabase()
+    // {
+    //   //Arrange
+    //   Ticket testTicket1 = new Ticket(1,2);
+    //   testTicket1.Save();
+    //
+    //   Ticket testTicket2 = new Ticket(1,3);
+    //   testTicket2.Save();
+    //
+    //   //Act
+    //   testTicket1.Delete();
+    //   List<Ticket> resultTickets = Ticket.GetAll();
+    //   List<Ticket> testTicketList = new List<Ticket> {testTicket2};
+    //
+    //   //Assert
+    //   Assert.Equal(testTicketList, resultTickets);
+    // }
 
   }
 }

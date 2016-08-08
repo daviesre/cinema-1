@@ -26,6 +26,7 @@ namespace Cinema
     public void Dispose()
     {
       User.DeleteAll();
+      Ticket.DeleteAll();
     }
 
     [Fact]
@@ -83,6 +84,30 @@ namespace Cinema
 
       //Assert
       Assert.Equal(testUser, foundUser);
+    }
+
+    [Fact]
+    public void Test7_AddTicket_AddsTicketToUser()
+    {
+      //Arrange
+      User testUser = new User("Sara");
+      testUser.Save();
+
+      Ticket testTicket1 = new Ticket(1,3);
+      testTicket1.Save();
+
+      Ticket testTicket2 = new Ticket(2,4);
+      testTicket2.Save();
+
+      //Act
+      testUser.AddTicket(testTicket1);
+      testUser.AddTicket(testTicket2);
+
+      List<Ticket> result = testUser.GetTickets();
+      List<Ticket> testList = new List<Ticket>{testTicket1, testTicket2};
+
+      //Assert
+      Assert.Equal(testList, result);
     }
 
   }
