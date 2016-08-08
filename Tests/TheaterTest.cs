@@ -62,5 +62,17 @@ namespace Cinema
 
       Assert.Equal(testId, result);
     }
+
+    [Fact]
+    public void T5_Find_FindsTheaterInDatabase()
+    {
+      DateTime fakeTime=new DateTime(2016,08,02);
+      Theater testTheater = new Theater("Regal", fakeTime);
+      testTheater.Save();
+
+      Theater foundTheater = Theater.Find(testTheater.GetId());
+
+      Assert.Equal(testTheater, foundTheater);
+    }
   }
 }

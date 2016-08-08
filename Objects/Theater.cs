@@ -124,6 +124,43 @@ namespace Cinema
         conn.Close();
       }
     }
+    public static Theater Find(int id)
+    {
+      SqlConnection conn = DB.Connection();
+      conn.Open();
+
+      SqlCommand cmd = new SqlCommand("SELECT * FROM theaters WHERE id = @TheaterId;", conn);
+      SqlParameter theaterIdParameter = new SqlParameter();
+      theaterIdParameter.ParameterName = "@TheaterId";
+      theaterIdParameter.Value = id.ToString();
+
+      cmd.Parameters.Add(theaterIdParameter);
+
+      SqlDataReader rdr = cmd.ExecuteReader();
+
+      int foundTheaterId = 0;
+      string foundTheaterLocation = null;
+      DateTime foundTheaterDateTime =  new DateTime(2000,01,01);
+
+      while (rdr.Read())
+      {
+        foundTheaterId = rdr.GetInt32(0);
+        foundTheaterLocation = rdr.GetString(1);
+        foundTheaterDateTime = rdr.GetDateTime(2);
+      }
+      Theater foundTheater = new Theater(foundTheaterLocation, foundTheaterDateTime, foundTheaterId);
+
+      if (rdr != null)
+      {
+        rdr.Close();
+      }
+      if (conn != null)
+      {
+        conn.Close();
+      }
+      return foundTheater;
+    }
+
 
     public static List<Theater> GetAll()
     {
