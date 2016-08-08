@@ -26,6 +26,15 @@ namespace Cinema
       Assert.Equal(0, result);
     }
 
+    [Fact]
+    public void T2_Equal_ReturnsTrueIfTheaterIsSame()
+    {
+      DateTime fakeTime=new DateTime(2016,08,02);
+      Theater firstTheater = new Theater("Regal", fakeTime);
+      Theater secondTheater = new Theater("Regal",fakeTime);
+
+      Assert.Equal(firstTheater, secondTheater);
+    }
 
   }
 }

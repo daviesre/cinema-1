@@ -8,10 +8,10 @@ namespace Cinema
   {
     private int _id;
     private string _name;
-    private string _dateTime;
+    private DateTime _dateTime;
 
 
-    public Theater (string Name, string DateTime, int Id = 0)
+    public Theater (string Name, DateTime DateTime, int Id = 0)
     {
       _id = Id;
       _name = Name;
@@ -33,14 +33,33 @@ namespace Cinema
       _name = newName;
     }
 
-    public string GetDateTime()
+    public DateTime GetDateTime()
     {
       return _dateTime;
     }
-    public void SetDateTime(string newDateTime)
+
+    public void SetDateTime(DateTime newDateTime)
     {
       _dateTime = newDateTime;
     }
+
+    public override bool Equals(System.Object otherTheater)
+   {
+     if (!(otherTheater is Theater))
+     {
+       return false;
+     }
+     else
+     {
+       Theater newTheater = (Theater) otherTheater;
+       bool idEquality = this.GetId() == newTheater.GetId();
+       bool nameEquality = this.GetName() == newTheater.GetName();
+       bool dateTimeEquality = this.GetDateTime() == newTheater.GetDateTime();
+
+       return (idEquality && nameEquality && dateTimeEquality);
+     }
+   }
+
 
     public static void DeleteAll()
     {
@@ -87,7 +106,7 @@ namespace Cinema
       {
         int theaterId = rdr.GetInt32(0);
         string theaterName = rdr.GetString(1);
-        string theaterDateTime = rdr.GetString(2);
+        DateTime theaterDateTime = rdr.GetDateTime(2);
 
         Theater newTheater = new Theater(theaterName, theaterDateTime, theaterId);
         allTheaters.Add(newTheater);
