@@ -39,7 +39,7 @@ namespace Cinema
     [Fact]
     public void T3_Save_SavesToDB()
     {
-        DateTime fakeTime=new DateTime(2016,08,02);
+      DateTime fakeTime=new DateTime(2016,08,02);
       Theater testTheater = new Theater("Regal", fakeTime);
       testTheater.Save();
 
@@ -47,6 +47,20 @@ namespace Cinema
       List<Theater> testList = new List<Theater>{testTheater};
 
       Assert.Equal(testList, result);
+    }
+
+    [Fact]
+    public void T4_Save_AssignsIdToTheater()
+    {
+      DateTime fakeTime=new DateTime(2016,08,02);
+      Theater testTheater = new Theater("Regal", fakeTime);
+      testTheater.Save();
+
+      Theater savedTheater = Theater.GetAll()[0];
+      int result = savedTheater.GetId();
+      int testId = testTheater.GetId();
+
+      Assert.Equal(testId, result);
     }
   }
 }
