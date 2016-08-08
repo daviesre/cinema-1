@@ -58,6 +58,21 @@ namespace Cinema
       return allUsers;
     }
 
+    public override bool Equals(System.Object otherUser)
+   {
+       if (!(otherUser is User))
+       {
+         return false;
+       }
+       else
+       {
+         User newUser = (User) otherUser;
+         bool idEquality = this.GetId() == newUser.GetId();
+         bool nameEquality = this.GetName() == newUser.GetName();
+         return (idEquality && nameEquality);
+       }
+   }
+
     public static void DeleteAll()
     {
       SqlConnection conn = DB.Connection();

@@ -28,5 +28,16 @@ namespace Cinema
       User.DeleteAll();
     }
 
+    [Fact]
+    public void Test2_Equal_ReturnsTrueIfNamesAreTheSame()
+    {
+      //Arrange, Act
+      User firstUser = new User("Sara");
+      User secondUser = new User("Sara");
+
+      //Assert
+      Assert.Equal(firstUser, secondUser);
+    }
+
   }
 }
