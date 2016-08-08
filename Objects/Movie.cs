@@ -126,9 +126,34 @@ namespace Cinema
       {
         conn.Close();
       }
-
     }
 
+    public static Movie Find(int newId)
+    {
+      SqlConnection conn = DB.Connection();
+      conn.Open();
+
+      SqlCommand cmd = new SqlCommand("SELECT * FROM movies WHERE id = (@MovieId);", conn);
+
+     SqlParameter movieParameter = new SqlParameter();
+     movieParameter.ParameterName = "@MovieId";
+     movieParameter.Value = newId;
+     cmd.Parameters.Add(movieParameter);
+
+     SqlDataReader rdr = cmd.ExecuteReader();
+     int id = 0;
+     string title = null;
+     string rating = null;
+
+     while(rdr.Read())
+     {
+       id = rdr.GetInt32(0);
+       title = rdr.GetString(1);
+       rating = rdr.GetString(2);
+     }
+     Movie foundMovie = new Movie(title, rating, id);
+     return foundMovie;
+    }
 
     public static void DeleteAll()
     {
