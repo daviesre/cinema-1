@@ -161,7 +161,6 @@ namespace Cinema
       return foundTheater;
     }
 
-
     public static List<Theater> GetAll()
     {
       List<Theater> allTheaters = new List<Theater>{};
