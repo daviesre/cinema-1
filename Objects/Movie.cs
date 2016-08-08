@@ -93,42 +93,6 @@ namespace Cinema
       return allMovies;
     }
 
-    public void Save()
-    {
-      SqlConnection conn = DB.Connection();
-      conn.Open();
-
-      SqlCommand cmd = new SqlCommand("INSERT INTO movies (title, rating) OUTPUT INSERTED.id VALUES (@Title, @Rating);", conn);
-
-      SqlParameter titleParameter = new SqlParameter();
-      titleParameter.ParameterName = "@Title";
-      titleParameter.Value = this.GetTitle();
-      cmd.Parameters.Add(titleParameter);
-
-      SqlParameter ratingParameter = new SqlParameter();
-      ratingParameter.ParameterName = "@Rating";
-      ratingParameter.Value = this.GetRating();
-      cmd.Parameters.Add(ratingParameter);
-
-      SqlDataReader rdr = cmd.ExecuteReader();
-
-      while(rdr.Read())
-      {
-        this._id = rdr.GetInt32(0);
-      }
-
-      if(rdr!=null)
-      {
-        rdr.Close();
-      }
-      
-      if(conn!=null)
-      {
-        conn.Close();
-      }
-
-    }
-
     public static void DeleteAll()
     {
       SqlConnection conn = DB.Connection();
