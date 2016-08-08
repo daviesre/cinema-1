@@ -39,5 +39,20 @@ namespace Cinema
       Assert.Equal(firstTicket, secondTicket);
     }
 
+    [Fact]
+    public void Test3_Save_SavesToDatabase()
+    {
+      //Arrange
+      Ticket testTicket = new Ticket(1,1);
+
+      //Act
+      testTicket.Save();
+      List<Ticket> result = Ticket.GetAll();
+      List<Ticket> testList = new List<Ticket>{testTicket};
+
+      //Assert
+      Assert.Equal(testList, result);
+    }
+
   }
 }

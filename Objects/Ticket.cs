@@ -86,6 +86,40 @@ namespace Cinema
       return alltickets;
     }
 
+    public void Save()
+    {
+      SqlConnection conn = DB.Connection();
+      conn.Open();
+
+      SqlCommand cmd = new SqlCommand("INSERT INTO tickets (movie_id, quantity) OUTPUT INSERTED.id VALUES (@TicketMovieId, @TicketQuantity);", conn);
+
+      SqlParameter movieIdParameter = new SqlParameter();
+      movieIdParameter.ParameterName = "@TicketMovieId";
+      movieIdParameter.Value = this.GetMovieId();
+
+      SqlParameter quantityParameter = new SqlParameter();
+      quantityParameter.ParameterName = "@TicketQuantity";
+      quantityParameter.Value = this.GetQuantity();
+
+      cmd.Parameters.Add(movieIdParameter);
+      cmd.Parameters.Add(quantityParameter);
+
+      SqlDataReader rdr = cmd.ExecuteReader();
+
+      while (rdr.Read())
+      {
+        this._id = rdr.GetInt32(0);
+      }
+      if (rdr != null)
+      {
+        rdr.Close();
+      }
+      if (conn != null)
+      {
+        conn.Close();
+      }
+    }
+
     public static void DeleteAll()
     {
       SqlConnection conn = DB.Connection();
