@@ -100,6 +100,39 @@ namespace Cinema
       }
     }
 
+    public static User Find(int id)
+    {
+      SqlConnection conn = DB.Connection();
+      conn.Open();
+
+      SqlCommand cmd = new SqlCommand("SELECT * FROM users WHERE id = @UserId;", conn);
+      SqlParameter userIdParameter = new SqlParameter();
+      userIdParameter.ParameterName = "@UserId";
+      userIdParameter.Value = id.ToString();
+      cmd.Parameters.Add(userIdParameter);
+      SqlDataReader rdr = cmd.ExecuteReader();
+
+      int foundUserId = 0;
+      string foundUserName = null;
+
+      while(rdr.Read())
+      {
+        foundUserId = rdr.GetInt32(0);
+        foundUserName = rdr.GetString(1);
+      }
+      User foundUser = new User(foundUserName, foundUserId);
+
+      if (rdr != null)
+      {
+        rdr.Close();
+      }
+      if (conn != null)
+      {
+        conn.Close();
+      }
+      return foundUser;
+    }
+
 
 
 

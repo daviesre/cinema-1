@@ -54,6 +54,25 @@ namespace Cinema
       Assert.Equal(testList, result);
     }
 
+    [Fact]
+    public void Test4_Save_AssignsIdToUserObject()
+    {
+      //Arrange
+      User testUser = new User("Sara");
+      testUser.Save();
+
+      //Act
+      User savedUser = User.GetAll()[0];
+
+      int result = savedUser.GetId();
+      int testId = testUser.GetId();
+
+      //Assert
+      Assert.Equal(testId, result);
+    }
+
+
+
 
   }
 }
