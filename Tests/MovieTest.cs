@@ -14,6 +14,15 @@ namespace Cinema
     }
 
     [Fact]
+    public void Test_EmptyAtFirst()
+    {
+      //Arrange, Act
+      int result = Movie.GetAll().Count;
+      //Assert
+      Assert.Equal(0, result);
+    }
+
+    [Fact]
     public void Test_Equal_ReturnsTrueForSameTitleAndRating()
     {
       //Arrange, Act
