@@ -86,6 +86,99 @@ namespace Cinema
       return alltickets;
     }
 
+    public void Save()
+    {
+      SqlConnection conn = DB.Connection();
+      conn.Open();
+
+      SqlCommand cmd = new SqlCommand("INSERT INTO tickets (movie_id, quantity) OUTPUT INSERTED.id VALUES (@TicketMovieId, @TicketQuantity);", conn);
+
+      SqlParameter movieIdParameter = new SqlParameter();
+      movieIdParameter.ParameterName = "@TicketMovieId";
+      movieIdParameter.Value = this.GetMovieId();
+
+      SqlParameter quantityParameter = new SqlParameter();
+      quantityParameter.ParameterName = "@TicketQuantity";
+      quantityParameter.Value = this.GetQuantity();
+
+      cmd.Parameters.Add(movieIdParameter);
+      cmd.Parameters.Add(quantityParameter);
+
+      SqlDataReader rdr = cmd.ExecuteReader();
+
+      while (rdr.Read())
+      {
+        this._id = rdr.GetInt32(0);
+      }
+      if (rdr != null)
+      {
+        rdr.Close();
+      }
+      if (conn != null)
+      {
+        conn.Close();
+      }
+    }
+
+    public static Ticket Find(int id)
+    {
+      SqlConnection conn = DB.Connection();
+      conn.Open();
+
+      SqlCommand cmd = new SqlCommand("SELECT * FROM tickets WHERE id = @TicketId;", conn);
+      SqlParameter ticketIdParameter = new SqlParameter();
+      ticketIdParameter.ParameterName = "@TicketId";
+      ticketIdParameter.Value = id.ToString();
+
+      cmd.Parameters.Add(ticketIdParameter);
+
+      SqlDataReader rdr = cmd.ExecuteReader();
+
+      int foundTicketId = 0;
+      int foundTicketMovieId = 0;
+      int foundTicketQuantity = 0;
+
+      while (rdr.Read())
+      {
+        foundTicketId = rdr.GetInt32(0);
+        foundTicketMovieId  = rdr.GetInt32(1);
+        foundTicketQuantity = rdr.GetInt32(2);
+
+      }
+      Ticket foundTicket = new Ticket(foundTicketMovieId, foundTicketQuantity, foundTicketId);
+
+      if (rdr != null)
+      {
+        rdr.Close();
+      }
+      if (conn != null)
+      {
+        conn.Close();
+      }
+      return foundTicket;
+    }
+
+
+
+    // public void Delete()
+    // {
+    //   SqlConnection conn = DB.Connection();
+    //   conn.Open();
+    //
+    //   SqlCommand cmd = new SqlCommand("DELETE FROM tickets WHERE id = @TicketId; DELETE FROM users_tickets WHERE ticket_id = @TicketId;", conn);
+    //   SqlParameter ticketIdParameter = new SqlParameter();
+    //   ticketIdParameter.ParameterName = "@TicketId";
+    //   ticketIdParameter.Value = this.GetId();
+    //
+    //   cmd.Parameters.Add(ticketIdParameter);
+    //   cmd.ExecuteNonQuery();
+    //
+    //   if (conn != null)
+    //   {
+    //     conn.Close();
+    //   }
+    // }
+
     public static void DeleteAll()
     {
       SqlConnection conn = DB.Connection();
