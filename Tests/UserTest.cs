@@ -85,6 +85,25 @@ namespace Cinema
       Assert.Equal(testUser, foundUser);
     }
 
+    [Fact]
+    public void Test6_Delete_DeletesOrderFromDatabase()
+    {
+       //Arrange
+      Order testOrder1 = new Order(1,2,1);
+      testOrder1.Save();
+
+      Order testOrder2 = new Order(1,1,5);
+      testOrder2.Save();
+
+       //Act
+      testOrder1.Delete();
+      List<Order> resultOrders = Order.GetAll();
+      List<Order> testOrderList = new List<Order> {testOrder2};
+
+       //Assert
+      Assert.Equal(testOrderList, resultOrders);
+    }
+
 
 
   }

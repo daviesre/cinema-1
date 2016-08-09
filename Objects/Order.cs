@@ -178,6 +178,25 @@ namespace Cinema
       return foundOrder;
     }
 
+    public void Delete()
+    {
+      SqlConnection conn = DB.Connection();
+      conn.Open();
+
+      SqlCommand cmd = new SqlCommand("DELETE FROM orders WHERE id = @OrderId;", conn);
+      SqlParameter orderIdParameter = new SqlParameter();
+      orderIdParameter.ParameterName = "@OrderId";
+      orderIdParameter.Value = this.GetId();
+
+      cmd.Parameters.Add(orderIdParameter);
+      cmd.ExecuteNonQuery();
+
+      if (conn != null)
+      {
+        conn.Close();
+      }
+    }
+
 
     public static void DeleteAll()
     {
