@@ -39,6 +39,38 @@ namespace Cinema
       Assert.Equal(firstOrder, secondOrder);
     }
 
+    [Fact]
+    public void Test3_Save_SavesToDatabase()
+    {
+      //Arrange
+      Order testOrder = new Order(1,1,2);
+
+      //Act
+      testOrder.Save();
+      List<Order> result = Order.GetAll();
+      List<Order> testList = new List<Order>{testOrder};
+
+      //Assert
+      Assert.Equal(testList, result);
+    }
+
+    [Fact]
+    public void Test4_Save_AssignsIdToOrderObject()
+    {
+      //Arrange
+      Order testOrder = new Order(1,1,2);
+      testOrder.Save();
+
+      //Act
+      Order savedOrder = Order.GetAll()[0];
+
+      int result = savedOrder.GetId();
+      int testId = testOrder.GetId();
+
+      //Assert
+      Assert.Equal(testId, result);
+    }
+
 
   }
 }
