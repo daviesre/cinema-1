@@ -240,6 +240,78 @@ namespace Cinema
       }
     }
 
+    public List<Theater> GetTheaters()
+    {
+      SqlConnection conn = DB.Connection();
+      conn.Open();
+
+      SqlCommand cmd = new SqlCommand("SELECT theaters.* FROM movies JOIN movies_theaters ON (movies.id = movies_theaters.movie_id) JOIN theaters ON (movies_theaters.theater_id = theaters.id) WHERE movies.id = @MovieId;", conn);
+      SqlParameter theaterIdParameter = new SqlParameter();
+      theaterIdParameter.ParameterName = "@MovieId";
+      theaterIdParameter.Value = this.GetId().ToString();
+
+      cmd.Parameters.Add(theaterIdParameter);
+
+      SqlDataReader rdr = cmd.ExecuteReader();
+      List<Theater> movies = new List<Theater> {};
+      while(rdr.Read())
+      {
+        int thisTheaterId = rdr.GetInt32(0);
+        string theaterLocation = rdr.GetString(1);
+        DateTime theaterDate = rdr.GetDateTime(2);
+        Theater foundTheater= new Theater(theaterLocation, theaterDate, thisTheaterId);
+        movies.Add(foundTheater);
+      }
+      if(rdr != null)
+      {
+        rdr.Close();
+      }
+      if (conn != null)
+      {
+        conn.Close();
+      }
+      return movies;
+    }
+
+    public static List<Movie> SearchMovieByTheater(string searchInput)
+    {
+      SqlConnection conn = DB.Connection();
+      conn.Open();
+
+      SqlCommand cmd = new SqlCommand("SELECT movies.* FROM theaters JOIN movies_theaters ON (theaters.id = movies_theaters.theater_id) JOIN movies ON (movies_theaters.movie_id = movies.id) WHERE theaters.location LIKE '%' + @SearchInput + '%';", conn);
+      SqlParameter searchParameter = new SqlParameter();
+      searchParameter.ParameterName = "@SearchInput";
+      searchParameter.Value = searchInput;
+      cmd.Parameters.Add(searchParameter);
+
+      SqlDataReader rdr = cmd.ExecuteReader();
+
+      int foundId = 0;
+      string foundTitle = null;
+      string foundRating = null;
+      List<Movie> foundMovies = new List<Movie>{};
+
+      while(rdr.Read())
+      {
+        foundId = rdr.GetInt32(0);
+        foundTitle = rdr.GetString(1);
+        foundRating = rdr.GetString(2);
+        Movie foundMovie = new Movie(foundTitle, foundRating, foundId);
+        foundMovies.Add(foundMovie);
+      }
+
+      if (rdr != null)
+      {
+        rdr.Close();
+      }
+
+      if (conn != null)
+      {
+        conn.Close();
+      }
+      return foundMovies;
+    }
+
     public static void DeleteAll()
     {
       SqlConnection conn = DB.Connection();

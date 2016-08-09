@@ -147,6 +147,55 @@ namespace Cinema
       Assert.Equal(testList, resultList);
     }
 
+    [Fact]
+    public void Test_GetMovies_GetAllTheatersInThisMovie()
+    {
+      //Arrange
+      DateTime newDate = new DateTime(2016, 08, 02);
+      Movie newMovie = new Movie("The Dimming", "PG-13");
+      newMovie.Save();
+      Theater theaterLocation1 = new Theater("Le Bijou", newDate);
+      theaterLocation1.Save();
+      Theater theaterLocation2 = new Theater("Les Bijoux", newDate);
+      theaterLocation2.Save();
+
+      newMovie.AddTheater(theaterLocation1);
+      newMovie.AddTheater(theaterLocation2);
+      List<Theater> testMovieTheaters = new List<Theater> {theaterLocation1, theaterLocation2};
+      //Act
+      List<Theater> resultMovieTheaters = newMovie.GetTheaters();
+      //Assert
+      Assert.Equal(testMovieTheaters, resultMovieTheaters);
+    }
+
+    [Fact]
+    public void Test_SearchByTheater_SearchForMovieByTheater()
+    {
+        DateTime newDate = new DateTime(2016, 08, 01);
+        Theater testTheater1 = new Theater("Watch Movies Here", newDate);
+        testTheater1.Save();
+        Theater testTheater2 = new Theater("Cinema Mania", newDate);
+        testTheater2.Save();
+        Theater testTheater3 = new Theater("Cinematic Cinema", newDate);
+        testTheater3.Save();
+
+        Movie testMovie1 = new Movie("How to Get Away with Loiter", "PG");
+        testMovie1.Save();
+        Movie testMovie2 = new Movie("Red Swan", "R");
+        testMovie2.Save();
+        Movie testMovie3 = new Movie("The Occurence 2", "R");
+        testMovie3.Save();
+
+        testMovie1.AddTheater(testTheater1);
+        testMovie2.AddTheater(testTheater2);
+        testMovie3.AddTheater(testTheater3);
+
+        List<Movie> result = Movie.SearchMovieByTheater("Cinema");
+        List<Movie> testMovies = new List<Movie> {testMovie2, testMovie3};
+
+        Assert.Equal(testMovies, result);
+    }
+
     public void Dispose()
     {
       Movie.DeleteAll();

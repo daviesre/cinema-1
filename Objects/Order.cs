@@ -99,6 +99,105 @@ namespace Cinema
       return allorders;
     }
 
+    public void Save()
+    {
+      SqlConnection conn = DB.Connection();
+      conn.Open();
+
+      SqlCommand cmd = new SqlCommand("INSERT INTO orders (showing_id, user_id, quantity) OUTPUT INSERTED.id VALUES (@OrderShowingId, @OrderUserId, @OrderQuantity);", conn);
+
+      SqlParameter showingIdParameter = new SqlParameter();
+      showingIdParameter.ParameterName = "@OrderShowingId";
+      showingIdParameter.Value = this.GetShowingId();
+
+      SqlParameter userIdParameter = new SqlParameter();
+      userIdParameter.ParameterName = "@OrderUserId";
+      userIdParameter.Value = this.GetUserId();
+
+      SqlParameter quantityParameter = new SqlParameter();
+      quantityParameter.ParameterName = "@OrderQuantity";
+      quantityParameter.Value = this.GetQuantity();
+
+      cmd.Parameters.Add(showingIdParameter);
+      cmd.Parameters.Add(userIdParameter);
+      cmd.Parameters.Add(quantityParameter);
+
+      SqlDataReader rdr = cmd.ExecuteReader();
+
+      while (rdr.Read())
+      {
+        this._id = rdr.GetInt32(0);
+      }
+      if (rdr != null)
+      {
+        rdr.Close();
+      }
+      if (conn != null)
+      {
+        conn.Close();
+      }
+    }
+
+    public static Order Find(int id)
+    {
+      SqlConnection conn = DB.Connection();
+      conn.Open();
+
+      SqlCommand cmd = new SqlCommand("SELECT * FROM orders WHERE id = @OrderId;", conn);
+      SqlParameter orderIdParameter = new SqlParameter();
+      orderIdParameter.ParameterName = "@OrderId";
+      orderIdParameter.Value = id.ToString();
+
+      cmd.Parameters.Add(orderIdParameter);
+
+      SqlDataReader rdr = cmd.ExecuteReader();
+
+      int foundOrderId = 0;
+      int foundOrderShowingId = 0;
+      int foundOrderUserId = 0;
+      int foundOrderQuantity = 0;
+//
+      while (rdr.Read())
+      {
+        foundOrderId = rdr.GetInt32(0);
+        foundOrderShowingId  = rdr.GetInt32(1);
+        foundOrderUserId  = rdr.GetInt32(2);
+        foundOrderQuantity = rdr.GetInt32(3);
+
+      }
+      Order foundOrder = new Order(foundOrderShowingId, foundOrderUserId, foundOrderQuantity, foundOrderId);
+
+      if (rdr != null)
+      {
+        rdr.Close();
+      }
+      if (conn != null)
+      {
+        conn.Close();
+      }
+      return foundOrder;
+    }
+
+    public void Delete()
+    {
+      SqlConnection conn = DB.Connection();
+      conn.Open();
+
+      SqlCommand cmd = new SqlCommand("DELETE FROM orders WHERE id = @OrderId;", conn);
+      SqlParameter orderIdParameter = new SqlParameter();
+      orderIdParameter.ParameterName = "@OrderId";
+      orderIdParameter.Value = this.GetId();
+
+      cmd.Parameters.Add(orderIdParameter);
+      cmd.ExecuteNonQuery();
+
+      if (conn != null)
+      {
+        conn.Close();
+      }
+    }
+
+
     public static void DeleteAll()
     {
       SqlConnection conn = DB.Connection();
