@@ -133,6 +133,65 @@ namespace Cinema
       return foundUser;
     }
 
+    // public void AddTicket(Ticket newTicket)
+    // {
+    //   SqlConnection conn = DB.Connection();
+    //   conn.Open();
+    //
+    //   SqlCommand cmd = new SqlCommand("INSERT INTO users_tickets (user_id, ticket_id) VALUES (@UserId, @TicketId);", conn);
+    //   SqlParameter userIdParameter = new SqlParameter();
+    //   userIdParameter.ParameterName = "@UserId";
+    //   userIdParameter.Value = this.GetId();
+    //   cmd.Parameters.Add(userIdParameter);
+    //
+    //   SqlParameter ticketIdParameter = new SqlParameter();
+    //   ticketIdParameter.ParameterName = "@TicketId";
+    //   ticketIdParameter.Value = newTicket.GetId();
+    //   cmd.Parameters.Add(ticketIdParameter);
+    //
+    //   cmd.ExecuteNonQuery();
+    //
+    //   if (conn != null)
+    //   {
+    //     conn.Close();
+    //   }
+    // }
+    //
+    // public List<Ticket> GetTickets()
+    // {
+    //   SqlConnection conn = DB.Connection();
+    //   conn.Open();
+    //
+    //   SqlCommand cmd = new SqlCommand("SELECT tickets.* FROM users JOIN users_tickets ON (users.id = users_tickets.user_id) JOIN tickets ON (users_tickets.ticket_id = tickets.id) WHERE users.id = @UserId",conn);
+    //
+    //   SqlParameter userIdParameter = new SqlParameter();
+    //   userIdParameter.ParameterName= "@UserId";
+    //   userIdParameter.Value=this.GetId();
+    //   cmd.Parameters.Add(userIdParameter);
+    //
+    //   SqlDataReader rdr = cmd.ExecuteReader();
+    //   List<Ticket> tickets = new List<Ticket> {};
+    //
+    //   while(rdr.Read())
+    //   {
+    //     int ticketId = rdr.GetInt32(0);
+    //     int ticketMovieId = rdr.GetInt32(1);
+    //     int ticketQuantity = rdr.GetInt32(2);
+    //     Ticket newTicket = new Ticket(ticketMovieId, ticketQuantity, ticketId);
+    //     tickets.Add(newTicket);
+    //   }
+    //
+    //   if(rdr !=null)
+    //   {
+    //     rdr.Close();
+    //   }
+    //
+    //   if (conn != null)
+    //   {
+    //     conn.Close();
+    //   }
+    //   return tickets;
+    // }
 
 
 
