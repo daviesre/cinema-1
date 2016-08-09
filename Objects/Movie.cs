@@ -155,24 +155,89 @@ namespace Cinema
 
       SqlCommand cmd = new SqlCommand("SELECT * FROM movies WHERE id = (@MovieId);", conn);
 
-     SqlParameter movieParameter = new SqlParameter();
-     movieParameter.ParameterName = "@MovieId";
-     movieParameter.Value = newId;
-     cmd.Parameters.Add(movieParameter);
+      SqlParameter movieParameter = new SqlParameter();
+      movieParameter.ParameterName = "@MovieId";
+      movieParameter.Value = newId;
+      cmd.Parameters.Add(movieParameter);
 
-     SqlDataReader rdr = cmd.ExecuteReader();
-     int id = 0;
-     string title = null;
-     string rating = null;
+      SqlDataReader rdr = cmd.ExecuteReader();
+      int id = 0;
+      string title = null;
+      string rating = null;
 
-     while(rdr.Read())
-     {
-       id = rdr.GetInt32(0);
-       title = rdr.GetString(1);
-       rating = rdr.GetString(2);
-     }
-     Movie foundMovie = new Movie(title, rating, id);
-     return foundMovie;
+      while(rdr.Read())
+      {
+        id = rdr.GetInt32(0);
+        title = rdr.GetString(1);
+        rating = rdr.GetString(2);
+      }
+      Movie foundMovie = new Movie(title, rating, id);
+      return foundMovie;
+    }
+
+    public void Update(string newTitle, string newRating)
+    {
+      SqlConnection conn = DB.Connection();
+      conn.Open();
+
+      SqlCommand cmd = new SqlCommand("Update movies SET title = @NewTitle, rating = @NewRating OUTPUT INSERTED.title, INSERTED.rating WHERE id = @MovieId;", conn);
+
+      SqlParameter newTitleParameter = new SqlParameter();
+      newTitleParameter.ParameterName = "@NewTitle";
+      newTitleParameter.Value = newTitle;
+      cmd.Parameters.Add(newTitleParameter);
+
+      SqlParameter newRatingParameter = new SqlParameter();
+      newRatingParameter.ParameterName = "@NewRating";
+      newRatingParameter.Value = newRating;
+      cmd.Parameters.Add(newRatingParameter);
+
+      SqlParameter movieIdParameter = new SqlParameter();
+      movieIdParameter.ParameterName = "@MovieId";
+      movieIdParameter.Value = this.GetId();
+      cmd.Parameters.Add(movieIdParameter);
+      SqlDataReader rdr = cmd.ExecuteReader();
+
+      while(rdr.Read())
+      {
+        this._title = rdr.GetString(0);
+        this._rating = rdr.GetString(1);
+      }
+
+      if (rdr != null)
+      {
+        rdr.Close();
+      }
+
+      if (conn != null)
+      {
+        conn.Close();
+      }
+    }
+
+    public void AddTheater(Theater newTheater)
+    {
+      SqlConnection conn = DB.Connection();
+      conn.Open();
+
+      SqlCommand cmd = new SqlCommand("INSERT INTO movies_theaters (movie_id, theater_id) VALUES (@MovieId, @TheaterId);", conn);
+
+      SqlParameter movieIdParameter = new SqlParameter();
+      movieIdParameter.ParameterName = "@MovieId";
+      movieIdParameter.Value = this.GetId();
+      cmd.Parameters.Add(movieIdParameter);
+
+      SqlParameter theaterIdParameter = new SqlParameter();
+      theaterIdParameter.ParameterName = "@TheaterId";
+      theaterIdParameter.Value = newTheater.GetId();
+      cmd.Parameters.Add(theaterIdParameter);
+
+      cmd.ExecuteNonQuery();
+
+      if (conn != null)
+      {
+        conn.Close();
+      }
     }
 
     public static void DeleteAll()

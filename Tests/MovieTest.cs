@@ -107,9 +107,50 @@ namespace Cinema
       Assert.Equal(testMovie, resultMovie);
     }
 
+    [Fact]
+    public void Test_Update_UpdatesMovieInDatabase()
+    {
+      //Arrange
+      string title = "The Godmother";
+      string rating = "R";
+      Movie testMovie = new Movie(title, rating);
+      testMovie.Save();
+      string newTitle = "The Grandson";
+      string newRating = "PG";
+
+      //Act
+      testMovie.Update(newTitle, newRating);
+      string result1 = testMovie.GetTitle();
+      string result2 = testMovie.GetRating();
+
+      //Assert
+      Assert.Equal(newTitle, result1);
+      Assert.Equal(newRating, result2);
+    }
+
+    [Fact]
+    public void Test_AddTheater_AddsTheaterToMovie()
+    {
+      //Arrange
+      DateTime newDate = new DateTime(2016, 08, 02);
+      Movie testMovie = new Movie("Miserable", "R");
+      testMovie.Save();
+      Theater theaterLocation1 = new Theater("Cinemaplex", newDate);
+      theaterLocation1.Save();
+      Theater theaterLocation2 = new Theater("Cinemart", newDate);
+      theaterLocation2.Save();
+      //Act
+      List<Theater> resultList = new List<Theater>{};
+      resultList.Add(theaterLocation1);
+      List<Theater> testList = new List<Theater>{theaterLocation1};
+      //Assert
+      Assert.Equal(testList, resultList);
+    }
+
     public void Dispose()
     {
       Movie.DeleteAll();
+      Theater.DeleteAll();
     }
 
   }
