@@ -107,6 +107,29 @@ namespace Cinema
       Assert.Equal(testMovie, resultMovie);
     }
 
+    [Fact]
+    public void Test_Update_UpdatesMovieInDatabase()
+    {
+      //Arrange
+      string title = "The Godmother";
+      string rating = "R";
+      Movie testMovie = new Movie(title, rating);
+      testMovie.Save();
+      string newTitle = "The Grandson";
+      string newRating = "PG";
+
+
+      //Act
+      testMovie.Update(newTitle, newRating);
+
+      string result1 = testMovie.GetTitle();
+      string result2 = testMovie.GetRating();
+
+      //Assert
+      Assert.Equal(newTitle, result1);
+      Assert.Equal(newRating, result2);
+    }
+
     public void Dispose()
     {
       Movie.DeleteAll();
