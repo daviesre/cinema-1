@@ -273,6 +273,45 @@ namespace Cinema
       return movies;
     }
 
+    public static List<Movie> SearchMovieByTheater(string searchInput)
+    {
+      SqlConnection conn = DB.Connection();
+      conn.Open();
+
+      SqlCommand cmd = new SqlCommand("SELECT movies.* FROM theaters JOIN movies_theaters ON (theaters.id = movies_theaters.theater_id) JOIN movies ON (movies_theaters.movie_id = movies.id) WHERE theaters.location LIKE '%' + @SearchInput + '%';", conn);
+      SqlParameter searchParameter = new SqlParameter();
+      searchParameter.ParameterName = "@SearchInput";
+      searchParameter.Value = searchInput;
+      cmd.Parameters.Add(searchParameter);
+
+      SqlDataReader rdr = cmd.ExecuteReader();
+
+      int foundId = 0;
+      string foundTitle = null;
+      string foundRating = null;
+      List<Movie> foundMovies = new List<Movie>{};
+
+      while(rdr.Read())
+      {
+        foundId = rdr.GetInt32(0);
+        foundTitle = rdr.GetString(1);
+        foundRating = rdr.GetString(2);
+        Movie foundMovie = new Movie(foundTitle, foundRating, foundId);
+        foundMovies.Add(foundMovie);
+      }
+
+      if (rdr != null)
+      {
+        rdr.Close();
+      }
+
+      if (conn != null)
+      {
+        conn.Close();
+      }
+      return foundMovies;
+    }
+
     public static void DeleteAll()
     {
       SqlConnection conn = DB.Connection();
