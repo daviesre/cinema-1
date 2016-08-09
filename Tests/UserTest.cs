@@ -26,6 +26,7 @@ namespace Cinema
     public void Dispose()
     {
       User.DeleteAll();
+      Order.DeleteAll();
     }
 
     [Fact]
@@ -83,6 +84,24 @@ namespace Cinema
 
       //Assert
       Assert.Equal(testUser, foundUser);
+    }
+
+    [Fact]
+    public void Test6_GetOrders_RetrievesAllOrdersWithUser()
+    {
+      User testUser = new User("Sara");
+      testUser.Save();
+
+      Order firstOrder = new Order(1, testUser.GetId(), 3);
+      firstOrder.Save();
+      Order secondOrder = new Order(2, testUser.GetId(), 4);
+      secondOrder.Save();
+
+
+      List<Order> testOrderList = new List<Order> {firstOrder, secondOrder};
+      List<Order> resultOrderList = testUser.GetOrders();
+
+      Assert.Equal(testOrderList, resultOrderList);
     }
 
 
