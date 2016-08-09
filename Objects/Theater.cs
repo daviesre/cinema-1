@@ -67,7 +67,7 @@ namespace Cinema
 
       SqlCommand cmd = new SqlCommand("Update theaters SET location = @NewLocation, date_time = @NewDateTime OUTPUT INSERTED.location, INSERTED.date_time WHERE id = @TheaterId;", conn);
 
-    
+
       SqlParameter newLocationParameter = new SqlParameter();
       newLocationParameter.ParameterName = "@NewLocation";
       newLocationParameter.Value = newLocation;
@@ -99,6 +99,69 @@ namespace Cinema
       {
         conn.Close();
       }
+    }
+
+    public void AddMovies(Movie newMovie)
+    {
+      SqlConnection conn = DB.Connection();
+      conn.Open();
+
+      SqlCommand cmd = new SqlCommand("INSERT INTO movies_theaters (theater_id, movie_id) VALUES (@TheaterId, @MovieId);", conn);
+
+      SqlParameter theaterIdParameter = new SqlParameter();
+      theaterIdParameter.ParameterName = "@TheaterId";
+      theaterIdParameter.Value = this.GetId();
+      cmd.Parameters.Add(theaterIdParameter);
+
+      SqlParameter movieIdParameter = new SqlParameter();
+      movieIdParameter.ParameterName = "@MovieId";
+      movieIdParameter.Value = newMovie.GetId();
+      cmd.Parameters.Add(movieIdParameter);
+
+      cmd.ExecuteNonQuery();
+
+      if (conn != null)
+      {
+        conn.Close();
+      }
+    }
+
+    public List<Movie> GetMovies()
+    {
+      SqlConnection conn = DB.Connection();
+      conn.Open();
+
+      SqlCommand cmd = new SqlCommand("SELECT movies.* FROM theaters JOIN movies_theaters ON (theaters.id = movies_theaters.theater_id) JOIN movies ON (movies_theaters.movie_id = movies.id) WHERE theaters.id = @TheaterId;", conn);
+      SqlParameter movieIdParameter = new SqlParameter();
+      movieIdParameter.ParameterName = "@MovieId";
+      movieIdParameter.Value = this.GetId().ToString();
+
+      SqlParameter theaterIdParameter = new SqlParameter();
+      theaterIdParameter.ParameterName = "@TheaterId";
+      theaterIdParameter.Value = this.GetId();
+      cmd.Parameters.Add(theaterIdParameter);
+
+      cmd.Parameters.Add(movieIdParameter);
+
+      SqlDataReader rdr = cmd.ExecuteReader();
+      List<Movie> theaters = new List<Movie> {};
+      while(rdr.Read())
+      {
+        int thisMovieId = rdr.GetInt32(0);
+        string movieTitle = rdr.GetString(1);
+        string movieRating = rdr.GetString(2);
+        Movie foundMovie = new Movie(movieTitle, movieRating, thisMovieId);
+        theaters.Add(foundMovie);
+      }
+      if(rdr != null)
+      {
+        rdr.Close();
+      }
+      if (conn != null)
+      {
+        conn.Close();
+      }
+      return theaters;
     }
 
     public void Save()
