@@ -138,6 +138,47 @@ namespace Cinema
       }
     }
 
+    public static Order Find(int id)
+    {
+      SqlConnection conn = DB.Connection();
+      conn.Open();
+
+      SqlCommand cmd = new SqlCommand("SELECT * FROM orders WHERE id = @OrderId;", conn);
+      SqlParameter orderIdParameter = new SqlParameter();
+      orderIdParameter.ParameterName = "@OrderId";
+      orderIdParameter.Value = id.ToString();
+
+      cmd.Parameters.Add(orderIdParameter);
+
+      SqlDataReader rdr = cmd.ExecuteReader();
+
+      int foundOrderId = 0;
+      int foundOrderShowingId = 0;
+      int foundOrderUserId = 0;
+      int foundOrderQuantity = 0;
+
+      while (rdr.Read())
+      {
+        foundOrderId = rdr.GetInt32(0);
+        foundOrderShowingId  = rdr.GetInt32(1);
+        foundOrderUserId  = rdr.GetInt32(2);
+        foundOrderQuantity = rdr.GetInt32(3);
+
+      }
+      Order foundOrder = new Order(foundOrderShowingId, foundOrderUserId, foundOrderQuantity, foundOrderId);
+
+      if (rdr != null)
+      {
+        rdr.Close();
+      }
+      if (conn != null)
+      {
+        conn.Close();
+      }
+      return foundOrder;
+    }
+
+
     public static void DeleteAll()
     {
       SqlConnection conn = DB.Connection();

@@ -71,6 +71,20 @@ namespace Cinema
       Assert.Equal(testId, result);
     }
 
+    [Fact]
+    public void Test5_Find_FindsOrderInDatabase()
+    {
+      //Arrange
+      Order testOrder = new Order(1,2,1);
+      testOrder.Save();
+
+      //Act
+      Order foundOrder = Order.Find(testOrder.GetId());
+
+      //Assert
+      Assert.Equal(testOrder, foundOrder);
+    }
+
 
   }
 }
