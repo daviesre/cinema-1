@@ -148,6 +148,46 @@ namespace Cinema
       }
     }
 
+    public void Update(string newTitle, string newRating)
+    {
+      SqlConnection conn = DB.Connection();
+      conn.Open();
+
+      SqlCommand cmd = new SqlCommand("Update movies SET title = @NewTitle, rating = @NewRating OUTPUT INSERTED.title, INSERTED.rating WHERE id = @MovieId;", conn);
+
+      SqlParameter newTitleParameter = new SqlParameter();
+      newTitleParameter.ParameterName = "@NewTitle";
+      newTitleParameter.Value = newTitle;
+      cmd.Parameters.Add(newTitleParameter);
+
+      SqlParameter newRatingParameter = new SqlParameter();
+      newRatingParameter.ParameterName = "@NewRating";
+      newRatingParameter.Value = newRating;
+      cmd.Parameters.Add(newRatingParameter);
+
+      SqlParameter movieIdParameter = new SqlParameter();
+      movieIdParameter.ParameterName = "@MovieId";
+      movieIdParameter.Value = this.GetId();
+      cmd.Parameters.Add(movieIdParameter);
+      SqlDataReader rdr = cmd.ExecuteReader();
+
+      while(rdr.Read())
+      {
+        this._title = rdr.GetString(0);
+        this._rating = rdr.GetString(1);
+      }
+
+      if (rdr != null)
+      {
+        rdr.Close();
+      }
+
+      if (conn != null)
+      {
+        conn.Close();
+      }
+    }
+
     public static Movie Find(int newId)
     {
       SqlConnection conn = DB.Connection();
