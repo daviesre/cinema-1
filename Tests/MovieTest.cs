@@ -147,6 +147,27 @@ namespace Cinema
       Assert.Equal(testList, resultList);
     }
 
+    [Fact]
+    public void Test_GetMovies_GetAllTheatersInThisMovie()
+    {
+      //Arrange
+      DateTime newDate = new DateTime(2016, 08, 02);
+      Movie newMovie = new Movie("The Dimming", "PG-13");
+      newMovie.Save();
+      Theater theaterLocation1 = new Theater("Le Bijou", newDate);
+      theaterLocation1.Save();
+      Theater theaterLocation2 = new Theater("Les Bijoux", newDate);
+      theaterLocation2.Save();
+
+      newMovie.AddTheater(theaterLocation1);
+      newMovie.AddTheater(theaterLocation2);
+      List<Theater> testMovieTheaters = new List<Theater> {theaterLocation1, theaterLocation2};
+      //Act
+      List<Theater> resultMovieTheaters = newMovie.GetTheaters();
+      //Assert
+      Assert.Equal(testMovieTheaters, resultMovieTheaters);
+    }
+
     public void Dispose()
     {
       Movie.DeleteAll();

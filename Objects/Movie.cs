@@ -240,6 +240,39 @@ namespace Cinema
       }
     }
 
+    public List<Theater> GetTheaters()
+    {
+      SqlConnection conn = DB.Connection();
+      conn.Open();
+
+      SqlCommand cmd = new SqlCommand("SELECT theaters.* FROM movies JOIN movies_theaters ON (movies.id = movies_theaters.movie_id) JOIN theaters ON (movies_theaters.theater_id = theaters.id) WHERE movies.id = @MovieId;", conn);
+      SqlParameter theaterIdParameter = new SqlParameter();
+      theaterIdParameter.ParameterName = "@MovieId";
+      theaterIdParameter.Value = this.GetId().ToString();
+
+      cmd.Parameters.Add(theaterIdParameter);
+
+      SqlDataReader rdr = cmd.ExecuteReader();
+      List<Theater> movies = new List<Theater> {};
+      while(rdr.Read())
+      {
+        int thisTheaterId = rdr.GetInt32(0);
+        string theaterLocation = rdr.GetString(1);
+        DateTime theaterDate = rdr.GetDateTime(2);
+        Theater foundTheater= new Theater(theaterLocation, theaterDate, thisTheaterId);
+        movies.Add(foundTheater);
+      }
+      if(rdr != null)
+      {
+        rdr.Close();
+      }
+      if (conn != null)
+      {
+        conn.Close();
+      }
+      return movies;
+    }
+
     public static void DeleteAll()
     {
       SqlConnection conn = DB.Connection();
