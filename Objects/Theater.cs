@@ -125,6 +125,11 @@ namespace Cinema
         conn.Close();
       }
     }
+    public override int GetHashCode()
+    {
+      return this.GetId().GetHashCode();
+    }
+
 
     public List<Movie> GetMovies()
     {
@@ -163,6 +168,7 @@ namespace Cinema
       }
       return theaters;
     }
+
 
     public void Save()
     {

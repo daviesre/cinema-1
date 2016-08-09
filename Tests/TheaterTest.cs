@@ -157,5 +157,6 @@ namespace Cinema
 
       Assert.Equal(testList,result);
     }
+
   }
 }
