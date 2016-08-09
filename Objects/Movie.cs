@@ -148,6 +148,33 @@ namespace Cinema
       }
     }
 
+    public static Movie Find(int newId)
+    {
+      SqlConnection conn = DB.Connection();
+      conn.Open();
+
+      SqlCommand cmd = new SqlCommand("SELECT * FROM movies WHERE id = (@MovieId);", conn);
+
+      SqlParameter movieParameter = new SqlParameter();
+      movieParameter.ParameterName = "@MovieId";
+      movieParameter.Value = newId;
+      cmd.Parameters.Add(movieParameter);
+
+      SqlDataReader rdr = cmd.ExecuteReader();
+      int id = 0;
+      string title = null;
+      string rating = null;
+
+      while(rdr.Read())
+      {
+        id = rdr.GetInt32(0);
+        title = rdr.GetString(1);
+        rating = rdr.GetString(2);
+      }
+      Movie foundMovie = new Movie(title, rating, id);
+      return foundMovie;
+    }
+
     public void Update(string newTitle, string newRating)
     {
       SqlConnection conn = DB.Connection();
@@ -188,31 +215,29 @@ namespace Cinema
       }
     }
 
-    public static Movie Find(int newId)
+    public void AddTheater(Theater newTheater)
     {
       SqlConnection conn = DB.Connection();
       conn.Open();
 
-      SqlCommand cmd = new SqlCommand("SELECT * FROM movies WHERE id = (@MovieId);", conn);
+      SqlCommand cmd = new SqlCommand("INSERT INTO movies_theaters (movie_id, theater_id) VALUES (@MovieId, @TheaterId);", conn);
 
-     SqlParameter movieParameter = new SqlParameter();
-     movieParameter.ParameterName = "@MovieId";
-     movieParameter.Value = newId;
-     cmd.Parameters.Add(movieParameter);
+      SqlParameter movieIdParameter = new SqlParameter();
+      movieIdParameter.ParameterName = "@MovieId";
+      movieIdParameter.Value = this.GetId();
+      cmd.Parameters.Add(movieIdParameter);
 
-     SqlDataReader rdr = cmd.ExecuteReader();
-     int id = 0;
-     string title = null;
-     string rating = null;
+      SqlParameter theaterIdParameter = new SqlParameter();
+      theaterIdParameter.ParameterName = "@TheaterId";
+      theaterIdParameter.Value = newTheater.GetId();
+      cmd.Parameters.Add(theaterIdParameter);
 
-     while(rdr.Read())
-     {
-       id = rdr.GetInt32(0);
-       title = rdr.GetString(1);
-       rating = rdr.GetString(2);
-     }
-     Movie foundMovie = new Movie(title, rating, id);
-     return foundMovie;
+      cmd.ExecuteNonQuery();
+
+      if (conn != null)
+      {
+        conn.Close();
+      }
     }
 
     public static void DeleteAll()
