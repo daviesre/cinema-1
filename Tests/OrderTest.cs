@@ -27,5 +27,18 @@ namespace Cinema
       //Assert
       Assert.Equal(0, result);
     }
+
+    [Fact]
+    public void Test2_Equal_ReturnsTrueIfOrderAreTheSame()
+    {
+      //Arrange, Act
+      Order firstOrder = new Order(1,1,2);
+      Order secondOrder = new Order(1,1,2);
+
+      //Assert
+      Assert.Equal(firstOrder, secondOrder);
+    }
+
+
   }
 }
