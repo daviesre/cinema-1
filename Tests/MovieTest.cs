@@ -69,6 +69,44 @@ namespace Cinema
       Assert.Equal(testMovies.Count, resultMovie.Count);
     }
 
+    [Fact]
+    public void Test_Find_FindsMovieInDatabase()
+    {
+      //Arrange
+      Movie testMovie = new Movie("Red Swan", "R");
+      testMovie.Save();
+
+      //Act
+      Movie foundMovie = Movie.Find(testMovie.GetId());
+
+      //Assert
+      Assert.Equal(testMovie, foundMovie);
+    }
+
+    [Fact]
+    public void Test_Delete_DeletesMoviesFromDatabase()
+    {
+      //Arrange
+      string title1 = "Das Shoe";
+      string rating1 = "R";
+      Movie testMovie1 = new Movie(title1, rating1);
+      testMovie1.Save();
+
+      string title2 = "La Vie En Grosse";
+      string rating2 = "PG-13";
+      Movie testMovie2 = new Movie(title2, rating2);
+      testMovie2.Save();
+      List<Movie> testMovie = new List<Movie>{};
+
+      //Act
+      testMovie1.Delete();
+      testMovie2.Delete();
+      List<Movie> resultMovie = Movie.GetAll();
+
+      //Assert
+      Assert.Equal(testMovie, resultMovie);
+    }
+
     public void Dispose()
     {
       Movie.DeleteAll();
