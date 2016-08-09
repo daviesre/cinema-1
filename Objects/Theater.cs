@@ -60,6 +60,47 @@ namespace Cinema
       }
     }
 
+    public void Update(string newLocation, DateTime newDateTime)
+    {
+      SqlConnection conn = DB.Connection();
+      conn.Open();
+
+      SqlCommand cmd = new SqlCommand("Update theaters SET location = @NewLocation, date_time = @NewDateTime OUTPUT INSERTED.location, INSERTED.date_time WHERE id = @TheaterId;", conn);
+
+    
+      SqlParameter newLocationParameter = new SqlParameter();
+      newLocationParameter.ParameterName = "@NewLocation";
+      newLocationParameter.Value = newLocation;
+      cmd.Parameters.Add(newLocationParameter);
+
+      SqlParameter newDateTimeParameter = new SqlParameter();
+      newDateTimeParameter.ParameterName = "@NewDateTime";
+      newDateTimeParameter.Value = newDateTime;
+      cmd.Parameters.Add(newDateTimeParameter);
+
+      SqlParameter theaterIdParameter = new SqlParameter();
+      theaterIdParameter.ParameterName = "@TheaterId";
+      theaterIdParameter.Value = this.GetId();
+      cmd.Parameters.Add(theaterIdParameter);
+      SqlDataReader rdr = cmd.ExecuteReader();
+
+      while(rdr.Read())
+      {
+        this._location = rdr.GetString(0);
+        this._dateTime= rdr.GetDateTime(1);
+      }
+
+      if (rdr != null)
+      {
+        rdr.Close();
+      }
+
+      if (conn != null)
+      {
+        conn.Close();
+      }
+    }
+
     public void Save()
     {
       SqlConnection conn = DB.Connection();

@@ -74,5 +74,28 @@ namespace Cinema
 
       Assert.Equal(testTheater, foundTheater);
     }
+
+    [Fact]
+     public void Test_Update_UpdatesTheaterInDatabase()
+     {
+       //Arrange
+       string location = "Regal";
+       DateTime fakeTime = new DateTime(2016,08,02);
+       Theater testTheater = new Theater(location, fakeTime);
+       testTheater.Save();
+       string newLocation = "AMC";
+       DateTime fakeTime2 = new DateTime(2016,09,02);
+
+
+       //Act
+       testTheater.Update(newLocation, fakeTime2);
+
+       string result1 = testTheater.GetLocation();
+       DateTime result2 = testTheater.GetDateTime();
+
+       //Assert
+       Assert.Equal(newLocation, result1);
+       Assert.Equal(fakeTime2, result2);
+     }
   }
 }
