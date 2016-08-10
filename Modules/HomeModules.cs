@@ -9,8 +9,22 @@ namespace Cinema
     public HomeModule()
     {
       Get["/"] = _ => {
-        return View["index.cshtml"];
+        List<Movie> AllMovies = Movie.GetAll();
+        return View["index.cshtml", AllMovies];
       };
+
+      Get["/admin/new"] = _ => {
+        return View["admin.cshtml"];
+      };
+
+      Post["/admin/new"] = _ => {
+        // Theater newTheater = new Theater(Request.Form["theater-location"], Request.Form["theater-date"] );
+        // newTheater.Save();
+        Movie newMovie = new Movie(Request.Form["movie-title"], Request.Form["movie-rating"] );
+        newMovie.Save();
+        return View["success.cshtml"];
+      };
+
     }
 
   }

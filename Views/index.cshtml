@@ -1,1 +1,14 @@
-<h1>Cinema</h1>
+<h1>Seattle Movie Scene</h1>
+<hr />
+<h2>Now Plaing:</h2>
+@if (Model.Count != 0)
+{
+  <ul>
+    @foreach (var movie in Model)
+    {
+      <li><a href='/movies/@movie.GetId()'>@movie.GetTitle()</a></li>
+    }
+  </ul>
+
+}
+<h4><a href="/admin/new">Admin</a></h4>
