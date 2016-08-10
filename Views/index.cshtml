@@ -6,9 +6,8 @@
   <ul>
     @foreach (var movie in Model)
     {
-      <li><a href='/movies/@movie.GetId()'>@movie.GetTitle()</a></li>
+      <li><a href='/movies/@movie.GetId()'>@movie.GetTitle()</a>, Rated: @movie.GetRating()</li>
     }
   </ul>
-
 }
 <h4><a href="/admin/new">Admin</a></h4>
