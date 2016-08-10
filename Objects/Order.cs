@@ -36,6 +36,7 @@ namespace Cinema
       }
     }
 
+    
     public int GetId()
     {
       return _id;
