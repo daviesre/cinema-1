@@ -16,6 +16,7 @@ namespace Cinema
     public void Dispose()
     {
       Theater.DeleteAll();
+      Movie.DeleteAll();
     }
 
     [Fact]

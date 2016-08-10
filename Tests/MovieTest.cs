@@ -81,6 +81,7 @@ namespace Cinema
 
       //Assert
       Assert.Equal(testMovie, foundMovie);
+      // Console.WriteLine(testMovie.GetId());
     }
 
     [Fact]
@@ -166,6 +167,8 @@ namespace Cinema
       List<Theater> resultMovieTheaters = newMovie.GetTheaters();
       //Assert
       Assert.Equal(testMovieTheaters, resultMovieTheaters);
+
+
     }
 
     public void Dispose()
