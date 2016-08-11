@@ -90,7 +90,7 @@ namespace Cinema
 
         Patch["theater/edit/{id}"] = parameters => {
           Theater SelectedTheater = Theater.Find(parameters.id);
-          SelectedTheater.Update(Request.Form["theater-name"], Request.Form["theater-date"]);
+          SelectedTheater.Update(Request.Form["theater-location"], Request.Form["theater-date"]);
           return View["success.cshtml"];
         };
 
