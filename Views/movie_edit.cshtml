@@ -4,7 +4,7 @@
 <form action="/movie/edit/@Model.GetId()" method="post">
   <input type="hidden" name="_method" value="PATCH">
   <input name="movie-id" type="hidden" value="@Model.GetId()">
-  <label for="movie-title">Theater name</label>
+  <label for="movie-title">Movie title</label>
   <input id="movie-title" name="movie-title" type="text">
   <label for="movie-rating">Rating</label>
   <input id="movie-rating" name="movie-rating" type="text">
