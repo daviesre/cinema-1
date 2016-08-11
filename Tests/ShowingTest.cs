@@ -26,7 +26,6 @@ namespace Cinema
       //Arrange
       Movie testMovie = new Movie("Red Swan", "R");
       testMovie.Save();
-      Console.WriteLine(testMovie.GetId());
       DateTime fakeTime=new DateTime(2016,08,02);
       Theater testTheater = new Theater("Regal", fakeTime);
       testTheater.Save();

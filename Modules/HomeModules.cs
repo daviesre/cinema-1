@@ -33,10 +33,10 @@ namespace Cinema
       };
 
       Get["/movies/new"] = _ => {
-        return View["movie_form.cshtml"];
+        return View["movies_form.cshtml"];
       };
 
-      Post["/movie/new"] = _ => {
+      Post["/movies/new"] = _ => {
         Movie newMovie = new Movie(Request.Form["movie-title"], Request.Form["movie-rating"]);
         newMovie.Save();
         return View["success.cshtml"];
@@ -125,7 +125,7 @@ namespace Cinema
           return View["movie_delete.cshtml", SelectedMovie];
         };
         Delete["movie/delete/{id}"] = parameters => {
-          Movie SelectedMovie = Theater.Find(parameters.id);
+          Movie SelectedMovie = Movie.Find(parameters.id);
           SelectedMovie.Delete();
           return View["success.cshtml"];
         };
