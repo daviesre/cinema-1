@@ -1,13 +1,3 @@
-<h1>Seattle Movie Scene</h1>
-<hr />
-<h2>Now Plaing:</h2>
-@if (Model.Count != 0)
-{
-  <ul>
-    @foreach (var movie in Model)
-    {
-      <li><a href='/movies/@movie.GetId()'>@movie.GetTitle()</a>, Rated: @movie.GetRating()</li>
-    }
-  </ul>
-}
-<h4><a href="/admin/new">Admin</a></h4>
+<h1>Welcome to the Cinema Scene Admin Page!</h1>
+<h4><a href="/theaters">View Theaters</a></h4>
+<h4><a href="/movies">View Movies</a></h4>
