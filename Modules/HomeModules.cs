@@ -36,7 +36,7 @@ namespace Cinema
         return View["movies_form.cshtml"];
       };
 
-      Post["/movie/new"] = _ => {
+      Post["/movies/new"] = _ => {
         Movie newMovie = new Movie(Request.Form["movie-title"], Request.Form["movie-rating"]);
         newMovie.Save();
         return View["success.cshtml"];
