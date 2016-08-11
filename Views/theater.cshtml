@@ -1,0 +1,26 @@
+<h1>Cinema Scene</h1>
+<h2>Scene: @Model["theater"].GetLocation()</h2>
+<hr />
+@if (@Model["theaterMovies"].Count != 0)
+{
+  <h4>Here are all the movies playing at this theater:</h4>
+  <ul>
+    @foreach (var movie in @Model["theaterMovies"])
+    {
+      <li><strong>Title:</strong> @movie.GetTitle(), <strong>Rating:</strong> @movie.GetRating()</li>
+    }
+  </ul>
+}
+<h4>Add a movie to this theater:</h4>
+<form action='/theater/add_movie' method='post'>
+  <input id='theater-id' name='theater-id' type='hidden' value='@Model["theater"].GetId()'>
+  <label for='movie-id'>Select a movie</label>
+  <select id='movie-id' name='movie-id' type='text'>
+    @foreach (var movie in @Model["allMovies"])
+    {
+      <option value='@movie.GetId()'>@movie.GetTitle()</option>
+    }
+  </select>
+  <button type='submit'>Add</button>
+</form>
+<p><a href="/">Return to Main Page</a></p>
