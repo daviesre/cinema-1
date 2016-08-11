@@ -4,8 +4,8 @@
 <form action="/theater/edit/@Model.GetId()" method="post">
   <input type="hidden" name="_method" value="PATCH">
   <input name="theater-id" type="hidden" value="@Model.GetId()">
-  <label for="theater-name">Theater name</label>
-  <input id="theater-name" name="theater-name" type="text">
+  <label for="theater-location">Theater name</label>
+  <input id="theater-location" name="theater-location" type="text">
   <label for="theater-date">Showtime</label>
   <input id="theater-date" name="theater-date" type="datetime-local">
   <button type="submit">Submit</button>
