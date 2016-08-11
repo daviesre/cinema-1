@@ -36,6 +36,7 @@ namespace Cinema
       }
     }
 
+    
     public int GetId()
     {
       return _id;
@@ -156,7 +157,7 @@ namespace Cinema
       int foundOrderShowingId = 0;
       int foundOrderUserId = 0;
       int foundOrderQuantity = 0;
-
+//
       while (rdr.Read())
       {
         foundOrderId = rdr.GetInt32(0);
