@@ -8,7 +8,7 @@ Interactive cinema application that allows theaters to enter movies, locations, 
 
 ## Setup/Installation Requirements
 
-_File can be cloned from Github @ [https://github.com/Rick1970/cinema].
+File can be cloned from Github @ [https://github.com/Rick1970/cinema].
 Created in C# with atom text editor.  Used Nancy framework, and razor view engine.  To run the file after download; first run dnu restore from the command line in order to link to the project.lock.json file. Set up the server by:
 In SQLCMD -S "(localdb)\mssqllocaldb"
 
